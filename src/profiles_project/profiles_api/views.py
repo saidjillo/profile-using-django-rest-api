@@ -14,7 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from . import serializers
 from . import models
-from . import permissions
+from . import permissions as permit
 
 # Create your views here.
 
@@ -120,7 +120,7 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.UserProfileSerializer
     queryset         = models.UserProfile.objects.all()
     authentication_classes = (TokenAuthentication,)
-    permission_classess = (permissions.UpdateOwnProfile,)
+    permission_classes  = (permit.UpdateOwnProfile,)
     filter_backends = (filters.SearchFilter,)
     search_fields   = ('name', 'email',)
 
@@ -142,7 +142,7 @@ class UserProfileFeedViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,)
     serializer_class  = serializers.ProfileFeedItemSerializer
     queryset = models.ProfileFeedItem.objects.all()
-    permission_classess = (permissions.PostOwnStatus, IsAuthenticated)
+    permission_classes  = (permit.PostOwnStatus, IsAuthenticated,)
 
     def perform_create(self, serializer):
         """sets the user profile to the logged in user."""
